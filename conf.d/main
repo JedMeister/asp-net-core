@@ -1,0 +1,80 @@
+#!/bin/sh -ex
+
+## mysql setup
+
+DB_NAME=example
+DB_USER=aspnet
+DB_PASS=$(mcookie)
+
+MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
+MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
+
+service mysql start
+
+$MYSQL_ADMIN create $DB_NAME
+$MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS'; flush privileges;"
+
+service mysql stop
+
+## aspdotnet setup
+
+# mysql keys
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft.gpg
+
+DOTNET_VERSION='3.1'
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+APP_SRC_ROOT='/var/www/aspnetcore-src'
+APP_ROOT='/var/www/aspnetcore'
+
+apt update
+apt install -y \
+    "dotnet-sdk-$DOTNET_VERSION" \
+    "dotnet-runtime-$DOTNET_VERSION" \
+    "aspnetcore-runtime-$DOTNET_VERSION"
+
+adduser --disabled-login --ingroup www-data --gecos 'aspnet' aspnet
+
+mkdir $APP_SRC_ROOT $APP_ROOT
+# remove & move files from tklweb-cp
+rm -r /var/www/js /var/www/css
+mv /var/www/images $APP_SRC_ROOT/wwwroot
+
+chown -R aspnet:www-data $APP_ROOT
+chown -R aspnet:www-data $APP_SRC_ROOT
+
+su - aspnet << "EOF"
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+APP_SRC_ROOT='/var/www/aspnetcore-src'
+APP_ROOT='/var/www/aspnetcore'
+
+dotnet tool install --global dotnet-ef
+dotnet tool install --global dotnet-aspnet-codegenerator
+
+cd /var/www
+dotnet new webapp -o aspnetcore-src -n 'TurnkeyExampleApp'
+cd aspnetcore-src
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.Extensions.Logging.Debug
+dotnet add package Pomelo.EntityFrameworkCore.MySql
+
+# copy aspnet site source (minus project data)
+rsync -r /usr/local/src/aspnetcore-src /var/www/
+
+# prepare & build webapp
+sed -i 's|https://localhost:5001;||' $APP_SRC_ROOT/Properties/launchSettings.json
+cd "$APP_SRC_ROOT"
+dotnet publish --configuration Release -o "$APP_ROOT"
+EOF
+
+# cleanup
+rm -r /usr/local/src/aspnetcore-src
+
+# setup nginx for reverse proxy
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/aspnetcore /etc/nginx/sites-enabled/aspnetcore
+
+# setup services
+systemctl enable aspnetcore.service
+mkdir /var/log/aspnet

@@ -1,0 +1,8 @@
+#include <turnkey/base>
+
+default-mysql-server
+webmin-mysql
+
+nginx
+
+jq
