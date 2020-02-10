@@ -32,12 +32,12 @@ apt install -y \
     "dotnet-runtime-$DOTNET_VERSION" \
     "aspnetcore-runtime-$DOTNET_VERSION"
 
-adduser --disabled-login --ingroup www-data --gecos 'aspnet' aspnet
+adduser --disabled-login --gecos 'aspnet' aspnet
+chown -R aspnet:aspnet /home/aspnet
 
 mkdir $APP_SRC_ROOT $APP_ROOT
 # remove & move files from tklweb-cp
 rm -r /var/www/js /var/www/css
-mv /var/www/images $APP_SRC_ROOT/wwwroot
 
 chown -R aspnet:www-data $APP_ROOT
 chown -R aspnet:www-data $APP_SRC_ROOT
@@ -64,9 +64,16 @@ rsync -r /usr/local/src/aspnetcore-src /var/www/
 
 # prepare & build webapp
 sed -i 's|https://localhost:5001;||' $APP_SRC_ROOT/Properties/launchSettings.json
+
+
 cd "$APP_SRC_ROOT"
 dotnet publish --configuration Release -o "$APP_ROOT"
 EOF
+
+mv /var/www/images $APP_SRC_ROOT/wwwroot
+cp -r $APP_SRC_ROOT/wwwroot/images $APP_ROOT/wwwroot
+chown -R aspnet:www-data $APP_SRC_ROOT/wwwroot/images
+chown -R aspnet:www-data $APP_ROOT/wwwroot/images
 
 # cleanup
 rm -r /usr/local/src/aspnetcore-src
