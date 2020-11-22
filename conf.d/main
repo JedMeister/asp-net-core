@@ -59,6 +59,9 @@ dotnet add package Microsoft.EntityFrameworkCore.Design --version $DNV
 dotnet add package Microsoft.EntityFrameworkCore.Tools --version $DNV
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version $DNV
 dotnet add package Microsoft.Extensions.Logging.Debug --version $DNV
+
+# next build; check for dot-net v5 compatible release of this:
+# https://www.nuget.org/packages/Pomelo.EntityFrameworkCore.MySql/
 dotnet add package Pomelo.EntityFrameworkCore.MySql
 
 # copy aspnet site source (minus project data)
