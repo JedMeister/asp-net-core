@@ -1,22 +1,26 @@
 turnkey-asp-net-core-16.0 (1) turnkey; urgency=low
 
-  * Initial release of ASP.NET
+  * Initial release of asp-net-core appliance.
 
   * Built on (currently) stable Debian 10 Buster
+
+  * Includes TurnKey "example app". (Note not using latest version of
+    asp-net-core as the MySQL/MariaDB connector we use does not yet have a
+    stable release compatible with asp-net-core v5.x (now part of dot-net v5).
 
   * Major component versions
  
     (debian repos)
     nginx                   1.14.2-2
-    webmin                  1.930-turnkey+21
+    webmin                  1.941-turnkey+2
     shellinabox             2.21
 
     (microsoft repos)
-    dotnet-runtime-3.1      3.1.1-1
-    dotnet-sdk-3.1          3.1.101-1
-    aspnetcore-runtime-3.1  3.1.1-1
+    dotnet-runtime-3.1      3.1.10-1
+    dotnet-sdk-3.1          3.1.404-1
+    aspnetcore-runtime-3.1  3.1.10-1
 
   * Note please refer to turnkey-core's changelog for changes common to all
     appliances. Here we only describe changes specific to this appliance.
 
- -- Stefan Davis <stefan@turnkeylinux>  Thu, 5 Feb 2020 17:49:06 +1100
+ -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 23 Nov 2020 10:27:52 +1100
