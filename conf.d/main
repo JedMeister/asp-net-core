@@ -46,17 +46,19 @@ su - aspnet << "EOF"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 APP_SRC_ROOT='/var/www/aspnetcore-src'
 APP_ROOT='/var/www/aspnetcore'
+DNV=3.1.4 # DOTNET VERSION
 
 dotnet tool install --global dotnet-ef
-dotnet tool install --global dotnet-aspnet-codegenerator
+# https://www.nuget.org/packages/dotnet-aspnet-codegenerator/
+dotnet tool install --global dotnet-aspnet-codegenerator --version $DNV
 
 cd /var/www
 dotnet new webapp -o aspnetcore-src -n 'TurnkeyExampleApp'
 cd aspnetcore-src
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
-dotnet add package Microsoft.Extensions.Logging.Debug
+dotnet add package Microsoft.EntityFrameworkCore.Design --version $DNV
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version $DNV
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version $DNV
+dotnet add package Microsoft.Extensions.Logging.Debug --version $DNV
 dotnet add package Pomelo.EntityFrameworkCore.MySql
 
 # copy aspnet site source (minus project data)
