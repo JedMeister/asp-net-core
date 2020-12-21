@@ -1,5 +1,5 @@
-ASP .NET Core on Nginx
-======================
+ASP .NET Core on Nginx - Open source dotNet MVC framewrok from MS
+=================================================================
 
 .NET Core is the successor to the .NET Framework, it's free and open
 source provided by Microsoft. `ASP.NET Core`_ is the .NET Core version of
