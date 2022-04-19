@@ -7,7 +7,7 @@ server {
     listen 0.0.0.0:443 ssl;
     access_log /var/log/aspnet/aspnet.log;
     error_log /var/log/aspnet/aspnet_error.log;
-    include /etc/nginx/include/ssl;
+    include /etc/nginx/snippets/ssl.conf;
     client_max_body_size 50M;
 
     location / {

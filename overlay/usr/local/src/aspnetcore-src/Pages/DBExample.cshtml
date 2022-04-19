@@ -12,15 +12,15 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ExampleThing[0].Title)
+                @Html.DisplayNameFor(model => model.ExampleThing!.First().Title!)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExampleThing[0].Data)
+                @Html.DisplayNameFor(model => model.ExampleThing!.First().Data)
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.ExampleThing) {
+@foreach (var item in Model.ExampleThing!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

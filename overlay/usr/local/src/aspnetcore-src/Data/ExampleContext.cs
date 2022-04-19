@@ -14,7 +14,7 @@ namespace TurnkeyExampleApp.Data
         {
         }
 
-        public DbSet<ExampleThing> ExampleThings { get; set; }
+        public DbSet<ExampleThing> ExampleThings => Set<ExampleThing>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

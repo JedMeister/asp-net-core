@@ -22,7 +22,7 @@ namespace TurnkeyExampleApp.Pages
             _logger = logger;
         }
 
-        public IList<ExampleThing> ExampleThing { get; set; }
+        public IList<ExampleThing>? ExampleThing = null;
 
         public async Task OnGetAsync()
         {

@@ -18,9 +18,9 @@ namespace TurnkeyExampleApp.Data
 
             var things = new ExampleThing[]
             {
-                new ExampleThing{Title="First item", Data="Bunch of random data"},
-                new ExampleThing{Title="Second item", Data="Even more random data"},
-                new ExampleThing{Title="Last item", Data="A substantially larger amount of random data purely for the purpose of an example" },
+                new ExampleThing("First item", "Bunch of random data"),
+                new ExampleThing("Second item", "Even more random data"),
+                new ExampleThing("Last item", "A substantially larger amount of random data purely for the purpose of an example" ),
             };
 
             foreach (ExampleThing t in things)

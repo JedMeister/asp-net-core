@@ -30,9 +30,10 @@ namespace TurnkeyExampleApp
             services.AddRazorPages();
 
             services.AddDbContext<ExampleContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("ExampleContext"), mySqlOptions =>
-                    mySqlOptions.ServerVersion(new ServerVersion(new Version(10, 3, 18), ServerType.MariaDb))
-            ));
+                    options.UseMySql(Configuration.GetConnectionString("ExampleContext"),
+                        new MySqlServerVersion(new Version(10, 3, 18))
+                    )
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
