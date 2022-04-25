@@ -8,5 +8,10 @@ namespace TurnkeyExampleApp.Models
         public int ID { get; set; }
         public string Title { get; set; }
         public string Data { get; set; }
+
+        public ExampleThing(string title, string data) {
+            Title = title;
+            Data = data;
+        }
     }
 }
