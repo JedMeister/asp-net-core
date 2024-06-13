@@ -21,7 +21,7 @@ service mysql stop
 # mysql keys
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft.gpg
 
-DOTNET_VERSION='6.0'
+DOTNET_VERSION='8.0'
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 APP_SRC_ROOT='/var/www/aspnetcore-src'
 APP_ROOT='/var/www/aspnetcore'
@@ -42,11 +42,11 @@ rm -r /var/www/js /var/www/css
 chown -R aspnet:www-data $APP_ROOT
 chown -R aspnet:www-data $APP_SRC_ROOT
 
-su - aspnet << "EOF"
+su -s /bin/bash - aspnet << "EOF"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 APP_SRC_ROOT='/var/www/aspnetcore-src'
 APP_ROOT='/var/www/aspnetcore'
-DNV=6.0 # DOTNET VERSION
+DNV=8.0 # DOTNET VERSION
 
 dotnet tool install --global dotnet-ef
 # https://www.nuget.org/packages/dotnet-aspnet-codegenerator/
